@@ -8,20 +8,62 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { newBookService } from "./bmsService.js";
+// export const addBook = async (req: Request, res: Response):Promise<Response | void> => {
+//     try {
+//         const { authorName, generType, bookTitle, bookIsbn, bookPublishDate, bookPrice } = req.body;
+//         // Validate required fields
+//         if (!authorName || !generType || !bookTitle || !bookIsbn || !bookPublishDate || !bookPrice) {
+//             return res.status(400).json({
+//                 status: "error",
+//                 message: "All fields are required.",
+//             });
+//         }
+//         const bookBody = { authorName, generType, bookTitle, bookIsbn, bookPublishDate, bookPrice };
+//         // console.log("Received book data:", bookBody);
+//         await newBookService.addBook(bookBody);
+//         res.status(200).json({
+//             status: "success",
+//             message: "New book added successfully.",
+//             data: bookBody
+//         });
+//     } catch (error) {
+//         console.error("Error adding book:", error);
+//         res.status(500).json({
+//             status: "error",
+//             // message: error.message || "Something went wrong.",
+//         });
+//     }
+// };
 export const addBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { authorName, generType, bookTitle, bookIsbn, bookPublishDate, bookPrice } = req.body;
-    console.log(req.body);
-    const bookBody = { authorName, generType, bookTitle, bookIsbn, bookPublishDate, bookPrice };
-    console.log(bookBody);
-    yield newBookService.addBook(bookBody);
-    res.status(200).json({
-        status: "success",
-        message: "newBook added Successfully.",
-        data: bookBody
-    });
+    try {
+        const { book_id, authorName, generType, bookTitle, bookIsbn, bookPublishDate, bookPrice } = req.body;
+        if (!authorName || !generType || !bookTitle || !bookIsbn || !bookPublishDate || !bookPrice) {
+            res.status(400).json({
+                status: "error",
+                message: "All fields are required.",
+            });
+            return;
+        }
+        const bookBody = { book_id, authorName, generType, bookTitle, bookIsbn, bookPublishDate, bookPrice };
+        console.log(bookBody);
+        yield newBookService.addBook(bookBody);
+        res.status(201).json({
+            status: "success",
+            message: "New book added successfully.",
+            data: bookBody,
+        });
+    }
+    catch (error) {
+        console.error("Error adding book:", error);
+        res.status(500).json({
+            status: "error",
+            message: error instanceof Error ? error.message : "Something went wrong.",
+        });
+    }
 });
 export const getBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const booksData = yield newBookService.getBook();
+    console.log(booksData);
     if (booksData) {
         res.status(200).json({
             status: 'success',
@@ -47,8 +89,8 @@ export const deleteBookById = (req, res) => __awaiter(void 0, void 0, void 0, fu
 export const updateBookWithId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const bookId = Number(id);
-    const { authorName, generType, bookTitle, bookIsbn, bookPublishDate, bookPrice } = req.body;
-    const bookBody = { authorName, generType, bookTitle, bookIsbn, bookPublishDate, bookPrice };
+    const { bookTitle, bookIsbn, bookPublishDate, bookPrice } = req.body;
+    const bookBody = { bookTitle, bookIsbn, bookPublishDate, bookPrice };
     yield newBookService.updateBookWithId(bookId, bookBody);
     res.status(200).json({
         status: 'success',

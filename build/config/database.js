@@ -7,17 +7,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { Sequelize } from 'sequelize';
-export const sequelize = new Sequelize('demo', 'root', '164@KrishnaNagar', {
-    host: 'localhost',
-    dialect: 'mysql'
-});
-export const Dbconnect = () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        yield sequelize.authenticate();
-        console.log('Connection Successful.');
+import { Sequelize } from "sequelize";
+import dotenv from "dotenv";
+dotenv.config();
+class Database {
+    constructor() { }
+    static getInstance() {
+        if (!Database.instance) {
+            Database.instance = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+                host: process.env.DB_HOST,
+                port: Number(process.env.DB_PORT),
+                dialect: process.env.DB_DIALECT
+            });
+        }
+        return Database.instance;
     }
-    catch (error) {
-        console.error('Unsuccessful to connect!!!!', error);
+    static connect() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield Database.getInstance().authenticate();
+                console.log("Database connection successful.");
+            }
+            catch (error) {
+                console.error("Failed to connect to database:", error);
+            }
+        });
     }
-});
+}
+export default Database;

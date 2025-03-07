@@ -1,5 +1,6 @@
 export type  BookReturnType = Omit<BooksAttribute,'id' | 'createdAt'|'updatedAt'>;
 export interface BookBody{
+    book_id?:number;
     authorName: string;
     generType: string;
     bookTitle: string;
