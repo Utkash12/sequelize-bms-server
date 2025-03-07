@@ -1,7 +1,7 @@
 import { author, book, gener } from "../models/bmsModel.js";
 import { Request, Response,ErrorRequestHandler } from "express";
 import { BookController } from "../types&interface/bmsTypes.js";
-import { newBookService } from "./bmsService.js";
+import { newBookService } from "./../services/bmsService.js";
 
 // export const addBook = async (req: Request, res: Response):Promise<Response | void> => {
 //     try {

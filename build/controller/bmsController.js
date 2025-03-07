@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { newBookService } from "./bmsService.js";
+import { newBookService } from "./../services/bmsService.js";
 // export const addBook = async (req: Request, res: Response):Promise<Response | void> => {
 //     try {
 //         const { authorName, generType, bookTitle, bookIsbn, bookPublishDate, bookPrice } = req.body;

@@ -1,5 +1,5 @@
 import { BaseBook, BookBody, BookBodyOptional, BookReturnType, BookService } from "../types&interface/bmsTypes.js";
-import { newBookRepo } from "./bmsRepository.js";
+import { newBookRepo } from "./../repositories/bmsRepository.js";
 class BMSService {
     constructor(private bms: BaseBook) { }
     async deleteBookById(id:number): Promise<void> {
